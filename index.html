@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./pages/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+</head>
+<body class="page">
+  <div class="popup">
+    <div class="popup__container">
+      <button class="popup__button-close"></button>
+      <p class="popup__title">Редактировать профиль</p>
+      <input class="popup__input-name" type="text">
+      <input class="popup__input-description" type="text">
+      <button type="submit" class="popup__button-save">Сохранить</button>
+    </div>
+    <header class="header">
+      <img class="header__logo" src="./images/logo.svg" alt="лого">
+      <hr class="header__line" />
+    </header>
+    <main>
+      <section class="profile">
+        <div class="profile__info">
+          <img class="profile__avatar" src="./images/Avatar.png" alt="аватар">
+          <div class="profile__text">
+            <p class="profile__name">Жак-Ив Кусто</p>
+            <button class="profile__edit-button"></button>
+            <p class="profile__description">Исследователь океана</p>
+          </div>
+        </div>
+        <button class="profile__add-button"></button>
+      </section>
+      <section class="elements">
+        <div class="element">
+          <img class="element__image" src="./images/Aveiro-min.jpg" alt="Авейро">
+          <div class="element__info">
+            <p class="element__title">Авейро</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Brugge-min.jpg" alt="Брюгге">
+          <div class="element__info">
+            <p class="element__title">Брюгге</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Ghent-min.jpg" alt="Гент">
+          <div class="element__info">
+            <p class="element__title">Гент</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Lille-min.jpg" alt="Лилль">
+          <div class="element__info">
+            <p class="element__title">Лилль</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Paris-min.jpg" alt="Париж">
+          <div class="element__info">
+            <p class="element__title">Париж</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Volgograd-min.jpg" alt="Волгоград">
+          <div class="element__info">
+            <p class="element__title">Волгоград</p>
+            <label>
+              <input class="element__like" type="checkbox">
+              <span class="element__pseudo-like"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
+    </footer>
+  </div>
+  <script src="./script.js"></script>
+</body>
+</html>

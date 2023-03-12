@@ -1,0 +1,12 @@
+.element__like {
+  width: 1px;
+  height: 1px;
+  clip-path: inset(0 0 0 0);
+  overflow: hidden;
+}
+.element__like:hover + .element__pseudo-like {
+  opacity: 0.5;
+}
+.element__like:checked + .element__pseudo-like {
+  background-image: url(./Like-black.png);
+}
