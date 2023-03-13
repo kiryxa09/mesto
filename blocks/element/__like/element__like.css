@@ -1,12 +1,18 @@
 .element__like {
-  width: 1px;
-  height: 1px;
-  clip-path: inset(0 0 0 0);
-  overflow: hidden;
+  margin-right: 20px;
+  margin-top: 31px;
+  width: 22px;
+  height: 19px;
+  border: none;
+  background-position: center;
+  cursor: pointer;
+  display: inline-block;
+  background-image: url(./like.svg);
+  background-color: white;
 }
-.element__like:hover + .element__pseudo-like {
+.element__like:hover {
   opacity: 0.5;
 }
-.element__like:checked + .element__pseudo-like {
-  background-image: url(./Like-black.png);
+.element__like:active {
+  background-image: url(./like-black.svg);
 }
