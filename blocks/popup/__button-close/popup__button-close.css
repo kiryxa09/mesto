@@ -18,6 +18,7 @@
         height: 20px;
         right: 0;
         top: -36px;
+        background-image: url(./Close-Icon_320px.svg);
       }
 }
 .popup__button-close:hover {
