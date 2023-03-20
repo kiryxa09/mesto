@@ -1,0 +1,13 @@
+.popup_block_elements {
+  display: none;
+}
+
+.popup_block_elements::before {
+  content: '';
+  background: #000000;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
