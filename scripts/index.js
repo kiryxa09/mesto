@@ -11,6 +11,8 @@ let formInputs = document.querySelectorAll('.popup__form');
 const formInput = Array.from(formInputs , function(a) { return a })
 let elements = document.querySelector('.elements');
 const addButton = document.querySelector('.profile__add-button');
+let popupInputLink = document.querySelector('.popup__input_value_link');
+let popupInputTitle = document.querySelector('.popup__input_value_title');
 const initialCards = [
   {
     name: 'Архыз',
@@ -53,6 +55,28 @@ function popupClose() {
   popupProfile.classList.remove('popup_opened');
 }
 
+function addElement(evt) {
+  evt.preventDefault(); 
+  const elementTemplate = document.querySelector('#element-template').content;
+  const element = elementTemplate.querySelector('.element').cloneNode(true);
+  const trashButton = element.querySelector('.element__trash');
+  const likeButton = element.querySelector('.element__like');
+
+  element.querySelector('.element__image').src = popupInputLink.value;
+  element.querySelector('.element__title').textContent = popupInputTitle.value;
+  
+  likeButton.addEventListener('click', ()=>{
+    likeButton.classList.toggle('element__like_active');
+  });
+
+  trashButton.addEventListener('click', ()=>{
+    element.remove();
+  });
+
+  elements.prepend(element);
+  popupClose();
+}
+
 function handleFormSubmit(evt) {
   evt.preventDefault(); 
   profileName.textContent = nameInput.value;
@@ -63,16 +87,27 @@ function handleFormSubmit(evt) {
 initialCards.forEach(item =>{
   const elementTemplate = document.querySelector('#element-template').content;
   const element = elementTemplate.querySelector('.element').cloneNode(true);
+  const trashButton = element.querySelector('.element__trash');
+  const likeButton = element.querySelector('.element__like');
 
   element.querySelector('.element__image').src = item.link;
   element.querySelector('.element__title').textContent = item.name;
+
+
+  likeButton.addEventListener('click', ()=>{
+    likeButton.classList.toggle('element__like_active');
+  });
+
+  trashButton.addEventListener('click', ()=>{
+    element.remove();
+  });
+
   elements.append(element);
 })
 
 addButton.addEventListener('click', popupOpenElements)
 editButton.addEventListener('click', popupOpenProfile);
-console.log(closeButton[0], closeButton[1], closeButton);
-
 closeButton[0].addEventListener('click', popupClose);
 closeButton[1].addEventListener('click', popupClose);
 formInput[0].addEventListener('submit', handleFormSubmit);
+formInput[1].addEventListener('submit', addElement);
