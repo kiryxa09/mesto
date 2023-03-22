@@ -13,6 +13,7 @@ let elements = document.querySelector('.elements');
 const addButton = document.querySelector('.profile__add-button');
 let popupInputLink = document.querySelector('.popup__input_value_link');
 let popupInputTitle = document.querySelector('.popup__input_value_title');
+const popupImage = document.querySelector('.popup_block_image');
 const initialCards = [
   {
     name: 'Архыз',
@@ -53,6 +54,7 @@ function popupOpenElements() {
 function popupClose() {
   popupElements.classList.remove('popup_opened');
   popupProfile.classList.remove('popup_opened');
+  popupImage.classList.remove('popup_opened');
 }
 
 function addElement(evt) {
@@ -89,6 +91,8 @@ initialCards.forEach(item =>{
   const element = elementTemplate.querySelector('.element').cloneNode(true);
   const trashButton = element.querySelector('.element__trash');
   const likeButton = element.querySelector('.element__like');
+  const elementImage = element.querySelector('.element__image');
+  const elementTitle = element.querySelector('.element__title');
 
   element.querySelector('.element__image').src = item.link;
   element.querySelector('.element__title').textContent = item.name;
@@ -102,6 +106,12 @@ initialCards.forEach(item =>{
     element.remove();
   });
 
+  elementImage.addEventListener('click', ()=>{
+    popupImage.classList.add('popup_opened');
+    popupImage.querySelector('.popup__image').src = elementImage.getAttribute('src');
+    popupImage.querySelector('.popup__image-description').textContent = elementTitle.textContent;
+  });
+
   elements.append(element);
 })
 
@@ -109,5 +119,6 @@ addButton.addEventListener('click', popupOpenElements)
 editButton.addEventListener('click', popupOpenProfile);
 closeButton[0].addEventListener('click', popupClose);
 closeButton[1].addEventListener('click', popupClose);
+closeButton[2].addEventListener('click', popupClose);
 formInput[0].addEventListener('submit', handleFormSubmit);
 formInput[1].addEventListener('submit', addElement);

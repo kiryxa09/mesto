@@ -1,5 +1,7 @@
 .popup_block_elements {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
 }
 
 .popup_block_elements::before {
@@ -10,4 +12,5 @@
   height: 100%;
   position: absolute;
   top: 0;
+  z-index: 3;
 }
