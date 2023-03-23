@@ -1,10 +1,10 @@
-.popup_block_profile {
+.popup {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;
 }
 
-.popup_block_profile::before {
+.popup::before {
   content: '';
   background: #000000;
   opacity: 0.5;
