@@ -16,6 +16,8 @@ const popupInputLink = document.querySelector('.popup__input_value_link');
 const popupInputTitle = document.querySelector('.popup__input_value_title');
 const popupImage = document.querySelector('.popup_block_image');
 const elementTemplate = document.querySelector('#element-template').content;
+const imagePopupImage = document.querySelector('.popup__image');
+const descriptionPopupImage = document.querySelector('.popup__image-description');
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -61,9 +63,9 @@ function createCard(item) {
   const elementImage = element.querySelector('.element__image');
   const elementTitle = element.querySelector('.element__title');
 
-  element.querySelector('.element__image').src = item.link;
-  element.querySelector('.element__title').textContent = item.name;
-  element.querySelector('.element__image').alt = item.name;
+  elementImage.src = item.link;
+  elementTitle.textContent = item.name;
+  elementImage.alt = item.name;
   
   likeButton.addEventListener('click', ()=>{
   likeButton.classList.toggle('element__like_active');
@@ -74,10 +76,10 @@ function createCard(item) {
   });
 
   elementImage.addEventListener('click', ()=>{
-    popupImage.classList.add('popup_opened');
-    popupImage.querySelector('.popup__image').src = elementImage.getAttribute('src');
-    elementTitle.textContent = elementImage.getAttribute('alt');
-    popupImage.querySelector('.popup__image-description').textContent = elementTitle.textContent;
+    openPopup(popupImage);
+    imagePopupImage.src = item.link;
+    imagePopupImage.alt = item.name;
+    descriptionPopupImage.textContent = item.name;
   });
 
   return element;
@@ -92,7 +94,9 @@ buttonEditProfile.addEventListener('click',  () => {
   openPopup(popupProfile);
 });
 
-buttonClosePopupProfile.addEventListener('click', closePopup(popupProfile));
+buttonClosePopupProfile.addEventListener('click', () => 
+  closePopup(popupProfile));
+
 buttonClosePopupElements.addEventListener('click', () => {
   closePopup(popupElements);
 });
