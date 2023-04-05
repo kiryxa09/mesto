@@ -7,7 +7,7 @@
   position: fixed;
   left: calc(50% - (430px / 2));
   top: calc(50vh - (330px / 2));
-  z-index: 4;
+  z-index: 5;
 }
 @media screen and (max-width: 767px) {
     .popup__container {
