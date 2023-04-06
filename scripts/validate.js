@@ -23,26 +23,37 @@ const checkInputValidity = (formElement, inputElement, {inputErrorClass, errorCl
 const setEventListeners = (formElement, {inputSelector, submitButtonSelector, ...rest}) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const buttonElement = formElement.querySelector(submitButtonSelector);
-  inputList.forEach((inputElement) => {
+  
   toggleButtonState(inputList, buttonElement, rest);
-    buttonEditProfile.addEventListener('click',  () => {
-      hideInputError(formElement, inputElement, rest);
-      toggleButtonState(inputList, buttonElement, rest);
-    });
-
+  
+  inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, rest);
       toggleButtonState(inputList, buttonElement, rest);
     });
   });
+
+  formElement.addEventListener('submit', () => {
+    toggleButtonState(inputList, buttonElement, rest);
+  });
+};
+
+const enableSubmitButton = (buttonElement, {inactiveButtonClass}) => {
+  buttonElement.classList.remove(inactiveButtonClass);
+  buttonElement.removeAttribute("disabled");
+};
+
+const disableSubmitButton = (buttonElement, {inactiveButtonClass}) => {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.setAttribute("disabled", true);
 };
 
 const toggleButtonState = (inputList, buttonElement, {inactiveButtonClass}) => {
   if(hasInvalidInput(inputList)){
-    buttonElement.classList.add(inactiveButtonClass);
+    disableSubmitButton(buttonElement, {inactiveButtonClass});
   } else {
-    buttonElement.classList.remove(inactiveButtonClass);
-  }
+    enableSubmitButton(buttonElement, {inactiveButtonClass});
+  }; 
 };
 
 const hasInvalidInput = (inputList) => {
@@ -52,7 +63,7 @@ const hasInvalidInput = (inputList) => {
 };
 
 function enableValidation({formSelector, ...rest}) {
-  let formList = Array.from(document.querySelectorAll(formSelector));
+  const formList = Array.from(document.querySelectorAll(formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
