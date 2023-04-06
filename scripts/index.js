@@ -19,6 +19,8 @@ const elementTemplate = document.querySelector('#element-template').content;
 const imagePopupImage = document.querySelector('.popup__image');
 const descriptionPopupImage = document.querySelector('.popup__image-description');
 const popupList = Array.from(document.querySelectorAll('.popup'));
+nameInput.value = profileName.textContent;
+descriptionInput.value = profileDescription.textContent;
 
 
 function openPopup(popup) {
@@ -31,10 +33,6 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePopupByEsc);
 };
 
-function handleOpenProfilePopup() {
-  nameInput.value = profileName.textContent;
-  descriptionInput.value = profileDescription.textContent;
-}
 
 function handleFormSubmit(evt) {
   evt.preventDefault(); 
@@ -99,7 +97,6 @@ buttonAddElement.addEventListener('click', () => {
 })
 
 buttonEditProfile.addEventListener('click',  () => {
-  handleOpenProfilePopup();
   openPopup(popupProfile);
 });
 
