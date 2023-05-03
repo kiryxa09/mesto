@@ -1,35 +1,11 @@
-export{ NewCard };
-import{ openPopup, imagePopupImage, popupImage, descriptionPopupImage, elements, popupInputLink, popupInputTitle } from './index.js';
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+export{ Card };
+import{ openPopup, imagePopupImage, popupImage, descriptionPopupImage } from './index.js';
 
 class Card {
-  constructor(templateSelector) {
+  constructor(data, templateSelector) {
     this._templateSelector = templateSelector;
+    this._title = data.name;
+    this._image = data.link;
   }
 
   _getTemplate() {
@@ -49,6 +25,7 @@ class Card {
       
     this._element.querySelector('.element__trash').addEventListener('click', ()=>{
       this._element.remove();
+      this._element = null;
     })
 
     this._element.querySelector('.element__image').addEventListener('click', ()=>{
@@ -58,20 +35,11 @@ class Card {
       descriptionPopupImage.textContent = this._title;
     })
   }
-  
-  
-};
 
-class InitialCard extends Card {
-  constructor(data, templateSelector) {
-    super(templateSelector);
-    this._title = data.name;
-    this._image = data.link;
-  }
   createCard() {
-    this._element = super._getTemplate();
+    this._element = this._getTemplate();
 
-    super._setEventListeners();
+    this._setEventListeners();
 
     this._element.querySelector('.element__image').src = this._image;
     this._element.querySelector('.element__image').alt = this._title;
@@ -79,36 +47,5 @@ class InitialCard extends Card {
     
     return this._element;
   };
+  
 };
-
-class NewCard extends Card {
-  constructor(templateSelector){
-    super(templateSelector);
-  }
-  addCard() {
-    this._image = popupInputLink.value;
-    this._title = popupInputTitle.value;
-    
-    this._element = super._getTemplate();
-
-    super._setEventListeners();
-
-    this._element.querySelector('.element__image').src = this._image;
-    this._element.querySelector('.element__image').alt = this._title;
-    this._element.querySelector('.element__title').textContent = this._title;
-    
-    return this._element;
-  }
-};
-
-const renderCards = () => {
-  initialCards.forEach(item =>{
-    const card = new InitialCard(item, '.element-template');
-    const cardElement = card.createCard();
-    elements.append(cardElement);
-  });
-};
-
-renderCards();
-
-
