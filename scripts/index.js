@@ -90,6 +90,11 @@ buttonClosePopupImage.addEventListener('click', () => {
   closePopup(popupImage);
 });
 
+function createPrototype(data) {
+  const card = new Card (data, '.element-template');
+  return card.createCard();
+}
+
 popupFormProfile.addEventListener('submit', handleProfileFormSubmit);
 popupFormElements.addEventListener('submit', (evt)=>{
   evt.preventDefault();
@@ -97,8 +102,7 @@ popupFormElements.addEventListener('submit', (evt)=>{
     name: popupInputTitle.value,
     link: popupInputLink.value
   }
-  const card = new Card (data, '.element-template');
-  const cardElement = card.createCard();
+  const cardElement = createPrototype(data);
   elements.prepend(cardElement);
   closePopup(popupElements);
   popupFormElements.reset();
@@ -115,8 +119,7 @@ popupList.forEach(popup => {
 
 const renderCards = () => {
   initialCards.forEach(item =>{
-    const card = new Card(item, '.element-template');
-    const cardElement = card.createCard();
+    const cardElement = createPrototype(item);
     elements.append(cardElement);
   });
 };
