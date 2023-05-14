@@ -1,5 +1,4 @@
-export {FormValidator}
-class FormValidator {
+export default class FormValidator {
   constructor (
     form,
     {
@@ -82,6 +81,14 @@ class FormValidator {
     this._errorElement.classList.remove(this._errorClass);
     this._errorElement.textContent = '';
   };
+
+  hideErrorOpened() {
+    const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+    inputList.forEach(input => {
+      this._hideInputError(input);
+    })
+  }
+
 
 
   enableValidation () {
