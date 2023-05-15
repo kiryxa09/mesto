@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "rimraf dist && webpack",
     "dev": "webpack serve --open --mode development"
   },
   "repository": {

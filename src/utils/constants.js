@@ -27,8 +27,6 @@ export const initialCards = [
 
 export const popupList = Array.from(document.querySelectorAll('.popup'));
 export const buttoCloseList = Array.from(document.querySelectorAll('.popup__button-close'));
-export const imagePopupImage = document.querySelector('.popup__image');
-export const descriptionPopupImage = document.querySelector('.popup__image-description');
 export const validationConfig = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',

@@ -5,7 +5,15 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  setItem(element, addToTop) {
+  set items( newItem ){
+    this._items = newItem;
+  }
+
+  set renderer( newRenderer){
+    this._renderer = newRenderer;
+  }
+
+  addItem(element, addToTop) {
     if (addToTop === true){
       this._container.prepend(element)
     } else{
@@ -13,13 +21,14 @@ export default class Section {
     }
   }
 
-  renderItems() {
-    this._items.forEach(item => {
-      this._renderer(item);
-    });
-  }
-  renderItem() {
-    this._renderer(this._items);
+  renderItems(alone) {
+    if (alone === true){
+      this._renderer(this._items);
+    } else {
+      this._items.forEach(item => {
+        this._renderer(item);
+      });
+    }
   }
 }
 

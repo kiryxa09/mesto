@@ -1,5 +1,5 @@
 import Card from '../components/Card.js';
-import '../pages/index.css';
+import './index.css';
 import { 
   initialCards,
   validationConfig,
@@ -32,10 +32,30 @@ import UserInfo from '../components/UserInfo.js';
 const popupFormElementsValidation = new FormValidator(popupFormElements, validationConfig);
 const popupFormProfileValidation = new FormValidator(popupFormProfile, validationConfig);
 
-
+const createCard = (item)=> {
+  const card = new Card ({
+    title: item.title,
+    link: item.link
+  }, '.element-template', {
+    handleCardClick: (title, link)=> {
+      popupWithImage.open( title, link );
+    }
+  })
+  return card.generateCard();
+}
 
 popupFormElementsValidation.enableValidation();
 popupFormProfileValidation.enableValidation();
+
+const section = new Section({
+  items: initialCards,
+  renderer: (item)=> {
+    const element = createCard(item);
+    section.addItem(element, false);
+  }
+}, elementsSelector)
+
+section.renderItems(false);
 
 
 const userInfo = new UserInfo({
@@ -51,23 +71,14 @@ const editer = ({name, description}) =>{
 }
 
 const adder = ({title, link}) =>{
-  const section = new Section({
-    items: {title, link},
-    renderer: (item)=> {
-      const card = new Card ({
-        title: item.title,
-        link: item.link
-      }, '.element-template', {
-        handleCardClick: (title, link)=> {
-          popupWithImage.open( title, link );
-        }
-      })
-      const element = card.createCard(popupWithImage);
-      cardList.setItem(element, true);
-    }
-  }, elementsSelector)
-   section.renderItem();
+  section.items = {title, link};
+  section.renderer = (item)=> {
+    const element = createCard(item);
+    section.addItem(element, true);
   }
+  section.renderItems(true);
+}
+
 
 
 const popupAddPics = new PopupWithForm(popupElementsSelector, adder)
@@ -93,23 +104,4 @@ buttonEditProfile.addEventListener('click',  () => {
 
 const popupWithImage = new PopupWithImage(popupImage);
 popupWithImage.setEventListeners();
-
-
-const cardList = new Section({
-  items: initialCards,
-  renderer: (item)=> {
-    const card = new Card ({
-      title: item.title,
-      link: item.link
-    }, '.element-template', {
-      handleCardClick: ( title, link)=> {
-        popupWithImage.open( title, link );
-      }
-    })
-    const element = card.createCard(popupWithImage);
-    cardList.setItem(element, false);
-  }
-}, elementsSelector)
- cardList.renderItems();
-
 
