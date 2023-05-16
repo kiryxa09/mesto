@@ -1,16 +1,7 @@
 export default class Section {
-  constructor({items, renderer}, containerSelector){
-    this._items = items;
+  constructor({ renderer }, containerSelector){
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
-  }
-
-  set items( newItem ){
-    this._items = newItem;
-  }
-
-  set renderer( newRenderer){
-    this._renderer = newRenderer;
   }
 
   addItem(element, addToTop) {
@@ -21,14 +12,11 @@ export default class Section {
     }
   }
 
-  renderItems(alone) {
-    if (alone === true){
-      this._renderer(this._items);
-    } else {
-      this._items.forEach(item => {
-        this._renderer(item);
-      });
-    }
+  renderItems(items) {
+    
+    items.forEach(item => {
+      this._renderer(item);
+    });
   }
 }
 

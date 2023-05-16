@@ -44,18 +44,18 @@ const createCard = (item)=> {
   return card.generateCard();
 }
 
+
 popupFormElementsValidation.enableValidation();
 popupFormProfileValidation.enableValidation();
 
 const section = new Section({
-  items: initialCards,
   renderer: (item)=> {
     const element = createCard(item);
     section.addItem(element, false);
   }
 }, elementsSelector)
 
-section.renderItems(false);
+section.renderItems(initialCards);
 
 
 const userInfo = new UserInfo({
@@ -71,13 +71,11 @@ const editer = ({name, description}) =>{
 }
 
 const adder = ({title, link}) =>{
-  section.items = {title, link};
-  section.renderer = (item)=> {
-    const element = createCard(item);
-    section.addItem(element, true);
-  }
-  section.renderItems(true);
+  const element = createCard({title, link});
+  section.addItem(element, true);
 }
+  
+
 
 
 
