@@ -10,7 +10,7 @@ module.exports = {
   },
   plugins:
   [
-    new MiniCssExtractPlugin(), 
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
     title: "My App",
     template: "./src/index.html"
