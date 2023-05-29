@@ -24,6 +24,3 @@ export const popupDeleteSelector = '.popup_block_delete';
 export const popupAvatarSelector =  '.popup_block_avatar';
 export const avatar = document.querySelector('.profile__avatar-container');
 export const popupFormAvatar = document.querySelector('.popup__form_avatar');
-export const buttonConfirmProfile = document.querySelector('.popup__button-confirm_profile')
-export const buttonConfirmelements = document.querySelector('.popup__button-confirm_elements')
-export const buttonConfirmAvatar = document.querySelector('.popup__button-confirm_avatar')

@@ -12,6 +12,7 @@ export default class UserInfo {
     }
   }
 
+
   setUserInfo({name, about}){
     this._profileName.textContent = name;
     this._profileAbout.textContent = about;

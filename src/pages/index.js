@@ -18,10 +18,7 @@ import {
   popupDeleteSelector,
   popupAvatarSelector,
   avatar,
-  popupFormAvatar,
-  buttonConfirmProfile,
-  buttonConfirmelements,
-  buttonConfirmAvatar
+  popupFormAvatar
  
 }  from '../utils/constants.js';
 import FormValidator from '../components/FormValidator.js';
@@ -32,15 +29,35 @@ import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
 
+const api = new Api('https://nomoreparties.co/v1/cohort-66', {
+  authorization: '7b28846b-6feb-426f-b36e-edc1b9d97b68',
+  'Content-Type': 'application/json'
+});
 
+let userId = null;
 
-const popupDelete = new PopupWithConfirm(popupDeleteSelector);
-popupDelete.setEventListeners();
-
+Promise.all([                
+  api.getProfileInfo(), 
+  api.getInitialCards() 
+]) 
+.then(([info, initialCards])=>{    
+  userId = info._id;    
+  section.renderItems(initialCards);
+  console.log(initialCards, info);
+  userInfo.setUserInfo(info);
+  userInfo.setUserAvatar(info);    
+}) 
+.catch((err)=>{              
+console.log(err);
+ })
 
 const popupFormElementsValidation = new FormValidator(popupFormElements, validationConfig);
 const popupFormProfileValidation = new FormValidator(popupFormProfile, validationConfig);
-const popupFormAvatarValidation = new FormValidator(popupFormAvatar, validationConfig)
+const popupFormAvatarValidation = new FormValidator(popupFormAvatar, validationConfig);
+
+popupFormElementsValidation.enableValidation();
+popupFormProfileValidation.enableValidation();
+popupFormAvatarValidation.enableValidation();
 
 
 const createCard = ({name, link, likes, owner, _id})=> {
@@ -52,7 +69,7 @@ const createCard = ({name, link, likes, owner, _id})=> {
     _id
   }, 
   '.element-template',
-  "8f24bc8a8cec8366252c30fd", 
+  userId, 
   {
     handleCardClick: (name, link)=> {
       popupWithImage.open( name, link );
@@ -61,22 +78,29 @@ const createCard = ({name, link, likes, owner, _id})=> {
       popupDelete.open();
       popupDelete.setActionSubmit(()=>{
         card.deleteCard()
-        popupDelete.close()
         api.deleteCard(card._id)
+        .then(()=> {
+          popupDelete.close()
+        })
       })
     },
     handleLikeClick: (_id)=>{
       console.log(card._id);
-      api.likeCard(card._id).then(res =>{
-        card.updateLikeCounter(res);
+      api.likeCard(card._id)
+      .then(res =>{
+        card.updateLikeCounter(res)
+        card.toggleLike()
       })
       .catch(err => {
         console.log(`Ошибка: ${err}`);
       })
     },
     handleDislikeClick: ()=>{
-      api.dislikeCard(card._id).then(res =>{
-        card.updateLikeCounter(res);
+      console.log(card._id);
+      api.dislikeCard(card._id)
+      .then(res =>{
+        card.updateLikeCounter(res)
+        card.toggleLike()
       })
       .catch(err => {
         console.log(`Ошибка: ${err}`);
@@ -87,19 +111,12 @@ const createCard = ({name, link, likes, owner, _id})=> {
   return card.generateCard();
 }
 
-
-popupFormElementsValidation.enableValidation();
-popupFormProfileValidation.enableValidation();
-popupFormAvatarValidation.enableValidation();
-
 const section = new Section({
   renderer: (item)=> {
     const element = createCard(item);
     section.addItem(element, false);
   }
 }, elementsSelector)
-
-
 
 
 const userInfo = new UserInfo({
@@ -114,8 +131,11 @@ const editer = ({name, about}) =>{
     about: about
   })
   api.patchProfileInfo(name, about)
+  .then(()=> {
+    popupEditProfile.close();
+  })
   .finally(()=> {
-    buttonConfirmProfile.textContent = 'Сохранить';
+    popupEditProfile.getButtonConfirm().textContent = 'Сохранить';
   })
 }
 
@@ -124,11 +144,14 @@ const adder = ({name, link}) =>{
     const element = createCard(res);
     section.addItem(element, true);
   })
+  .then(()=> {
+    popupAddPics.close();
+  })
   .catch(err => {
     console.log(`Ошибка: ${err}`);
   })
   .finally(()=> {
-    buttonConfirmelements.textContent = 'Создать';
+    popupAddPics.getButtonConfirm().textContent = 'Создать';
   })
 }
 
@@ -137,25 +160,33 @@ const avatarEditer = ({avatar})=>{
     avatar: avatar
   })
   api.patchAvatar(avatar)
-  .finally(()=> {
-    buttonConfirmAvatar.textContent = 'Сохранить';
+  .then(()=> {
+    popupAvatar.close();
   })
-  
+  .finally(()=> {
+    popupAvatar.getButtonConfirm().textContent = 'Сохранить';
+  })
 }
 
-
-
+const popupDelete = new PopupWithConfirm(popupDeleteSelector);
+popupDelete.setEventListeners();
 
 const popupAddPics = new PopupWithForm(popupElementsSelector, adder)
 popupAddPics.setEventListeners();
+
+const popupEditProfile = new PopupWithForm(popupProfileSelector, editer);
+popupEditProfile.setEventListeners();
+
+const popupWithImage = new PopupWithImage(popupImage);
+popupWithImage.setEventListeners();
+
+const popupAvatar = new PopupWithForm(popupAvatarSelector, avatarEditer);
+popupAvatar.setEventListeners();
 
 buttonAddElement.addEventListener('click', () => {
   popupFormElementsValidation.hideErrorOpened();
   popupAddPics.open();
 })
-
-const popupEditProfile = new PopupWithForm(popupProfileSelector, editer);
-popupEditProfile.setEventListeners(); 
 
 
 buttonEditProfile.addEventListener('click',  () => {
@@ -166,36 +197,9 @@ buttonEditProfile.addEventListener('click',  () => {
   popupEditProfile.open();
 });
 
-
-const popupWithImage = new PopupWithImage(popupImage);
-popupWithImage.setEventListeners();
-
-const popupAvatar = new PopupWithForm(popupAvatarSelector, avatarEditer);
-popupAvatar.setEventListeners();
-
 avatar.addEventListener('click', ()=> {
   popupFormAvatarValidation.hideErrorOpened();
   popupAvatar.open();
 })
 
-const api = new Api('https://nomoreparties.co/v1/cohort-66', {
-  authorization: '7b28846b-6feb-426f-b36e-edc1b9d97b68',
-  'Content-Type': 'application/json'
-});
 
-api.getProfileInfo().then(res =>{
-  userInfo.setUserInfo(res);
-  userInfo.setUserAvatar(res);
-  console.log(res);
-})
-.catch(err => {
-  console.log(`Ошибка: ${err}`);
-})
-
-api.getInitialCards().then(res =>{
-  section.renderItems(res);
-  console.log(res); 
-})
-.catch(err => {
-  console.log(`Ошибка: ${err}`);
-})

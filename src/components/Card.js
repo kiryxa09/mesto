@@ -24,7 +24,7 @@ export default class Card {
     return cardElement;
   }
 
-  _toggleLike() {
+  toggleLike() {
     this._likeButton.classList.toggle('element__like_active');
   }
 
@@ -40,12 +40,10 @@ export default class Card {
   _setEventListeners() {
     this._likeButton = this._element.querySelector('.element__like');
     this._likeButton.addEventListener('click', ()=>{
-      this._toggleLike();
       if(this._likeButton.classList.contains('element__like_active')) {
-        this._handleLikeClick();
-        
-      } else {
         this._handleDislikeClick();
+      } else {
+        this._handleLikeClick();
       }
     })
     
@@ -73,7 +71,7 @@ export default class Card {
       }
 
       if (this._likes.find(item => item._id == this._userId)) {
-        this._toggleLike();
+        this.toggleLike();
       }
 
     this._cardName = this._element.querySelector('.element__title');
