@@ -77,10 +77,13 @@ const createCard = ({name, link, likes, owner, _id})=> {
     handleTrashClick: (_id)=>{
       popupDelete.open();
       popupDelete.setActionSubmit(()=>{
-        card.deleteCard()
         api.deleteCard(card._id)
         .then(()=> {
+          card.deleteCard()
           popupDelete.close()
+        })
+        .catch(err => {
+          console.log(`Ошибка: ${err}`);
         })
       })
     },
@@ -126,13 +129,17 @@ const userInfo = new UserInfo({
 })
 
 const editer = ({name, about}) =>{
-  userInfo.setUserInfo({
-    name: name,
-    about: about
-  })
+  
   api.patchProfileInfo(name, about)
   .then(()=> {
+    userInfo.setUserInfo({
+      name: name,
+      about: about
+    })
     popupEditProfile.close();
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${err}`);
   })
   .finally(()=> {
     popupEditProfile.getButtonConfirm().textContent = 'Сохранить';
@@ -156,12 +163,15 @@ const adder = ({name, link}) =>{
 }
 
 const avatarEditer = ({avatar})=>{
-  userInfo.setUserAvatar({
-    avatar: avatar
-  })
   api.patchAvatar(avatar)
   .then(()=> {
+    userInfo.setUserAvatar({
+      avatar: avatar
+    })
     popupAvatar.close();
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${err}`);
   })
   .finally(()=> {
     popupAvatar.getButtonConfirm().textContent = 'Сохранить';
